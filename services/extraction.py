@@ -7,6 +7,7 @@ JSON output containing product-related and shipping-related reasons.
 
 import json
 import logging
+import os
 
 import ollama
 from ollama import Client
@@ -17,11 +18,11 @@ logger = logging.getLogger(__name__)
 # Configuration
 # ---------------------------------------------------------------------------
 OLLAMA_MODEL = "qwen3.6:35b-a3b"
-OLLAMA_HOST = "http://127.0.0.1:11434"
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "")
+OLLAMA_PORT = os.getenv("OLLAMA_PORT", "")
+OLLAMA_URL = f"{OLLAMA_HOST}:{OLLAMA_PORT}"
 
-# Create an explicit client so OLLAMA_HOST env var (often set to 0.0.0.0
-# for server binding) doesn't break the client connection.
-_client = Client(host=OLLAMA_HOST)
+_client = Client(host=OLLAMA_URL)
 
 # Default empty response used when extraction fails
 EMPTY_REASONS: dict = {

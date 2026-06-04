@@ -11,6 +11,7 @@ Usage:
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -24,7 +25,9 @@ except ImportError:
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-DEFAULT_URL = "http://127.0.0.1:8000"
+API_HOST = os.getenv("API_HOST", "")
+API_PORT = os.getenv("API_PORT", "")
+DEFAULT_URL = f"http://{API_HOST}:{API_PORT}"
 DUMMY_DATA_PATH = Path(__file__).parent / "test_data" / "dummy_reviews.json"
 
 
@@ -66,7 +69,7 @@ def test_analyze(base_url: str, payload: dict) -> dict | None:
         resp = requests.post(
             url,
             json=payload,
-            headers={"Content-Type": "application/json", "ngrok-skip-browser-warning": 69420},
+            headers={"Content-Type": "application/json", "ngrok-skip-browser-warning": "69420"}, # ngrok header to suppress browser warning (if applicable)
             timeout=120,  # LLM extraction can take a while
         )
         elapsed = time.time() - start_time

@@ -10,11 +10,14 @@ Usage:
 
 import argparse
 import json
+import os
 import sys
 
 import requests
 
-DEFAULT_URL = "http://127.0.0.1:8000"
+API_HOST = os.getenv("API_HOST", "")
+API_PORT = os.getenv("API_PORT", "")
+DEFAULT_URL = f"http://{API_HOST}:{API_PORT}"
 
 PASS = 0
 FAIL = 0
