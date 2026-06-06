@@ -26,14 +26,18 @@ EMPTY_REASONS: dict = {
 }
 
 
-def _build_prompt(negative_reviews: list[tuple[int, str]]) -> str:
+def _build_prompt(
+    negative_reviews: list[tuple[int, str]],
+    product_name: str = "",
+    product_category: str = "",
+) -> str:
     """
     Construct the analysis prompt for the LLM.
 
     Uses multi-step reasoning to:
-    1. Infer product type.
+    1. Identify product type from provided product_name and product_category.
     2. Group similar complaints into meaningful umbrella reasons.
-    3. Assign severity per reason.
+    3. Assign severity per reason, considering product type context.
     4. Map review IDs to reasons (only IDs from the provided list).
     5. Self-verify the output before emitting JSON.
     """
@@ -44,7 +48,10 @@ def _build_prompt(negative_reviews: list[tuple[int, str]]) -> str:
 
     valid_ids = [str(rid) for rid, _ in negative_reviews]
 
-    prompt = f"""You are an expert product review analyst. Below is a list of negative product reviews, each identified by a unique [ID].
+    prompt = f"""You are an expert product review analyst. Below is a list of negative product reviews for a specific product, each identified by a unique [ID].
+
+PRODUCT: {product_name}
+CATEGORY: {product_category}
 
 NEGATIVE REVIEWS:
 {reviews_block}
@@ -52,7 +59,7 @@ NEGATIVE REVIEWS:
 Follow these steps carefully, reasoning step by step:
 
 **STEP 1 — Product identification**
-Infer what type of product these reviews are about (e.g., smartphone, laptop, clothing, furniture).
+The product being reviewed is "{product_name}" which belongs to the "{product_category}" category. Use this information throughout your analysis.
 
 **STEP 2 — Thematic grouping**
 Read every review and identify the KEY COMPLAINT THEMES. Group similar complaints into ONE REASON:
@@ -63,12 +70,13 @@ Read every review and identify the KEY COMPLAINT THEMES. Group similar complaint
 - If only 1 review describes a truly unique and critical issue (safety hazard, product broken), it can be its own reason. Otherwise, merge it.
 
 **STEP 3 — Assign severity**
+Consider the product name ("{product_name}") and category ("{product_category}") when scoring severity. A non-functional smartphone is critical; a cosmetic issue on a budget accessory may be minor.
 Score each reason from 1 (minor) to 5 (critical) considering:
 - Safety risk, functionality impact, customer frustration, business impact.
-- 1-2 → "minor"
-- 3-4 → "moderate"
-- 5 → "critical"
-Write a short severity_explanation referencing the specific customer and business impact.
+- 1-2 → "minor" (cosmetic or preference issue, no real impact)
+- 3-4 → "moderate" (annoying but not deal-breaking, partial functionality loss)
+- 5 → "critical" (safety hazard, completely non-functional, major defect)
+Write a short severity_explanation referencing the specific customer and business impact, grounded in what is expected for this type of product.
 
 **STEP 4 — Link reviews**
 For each reason, list the [ID]s of reviews that match. Every review must belong to exactly one product reason and/or one shipping reason (if applicable).
@@ -162,7 +170,11 @@ def _validate_reasons(data: dict, valid_ids: set[int]) -> dict:
     return result
 
 
-def extract_negative_reasons(negative_reviews: list[tuple[int, str]]) -> dict:
+def extract_negative_reasons(
+    negative_reviews: list[tuple[int, str]],
+    product_name: str = "",
+    product_category: str = "",
+) -> dict:
     """
     Extract top reasons for negative sentiment from a list of negative reviews.
 
@@ -172,6 +184,8 @@ def extract_negative_reasons(negative_reviews: list[tuple[int, str]]) -> dict:
     Args:
         negative_reviews: List of (review_id, review_text) tuples for
                           reviews already classified as negative.
+        product_name: Name of the product being analyzed.
+        product_category: Category of the product (e.g. smartphone, laptop).
 
     Returns:
         dict with keys "product_reasons" and "shipping_reasons", each
@@ -183,7 +197,7 @@ def extract_negative_reasons(negative_reviews: list[tuple[int, str]]) -> dict:
         logger.info("No negative reviews to analyze. Returning empty reasons.")
         return EMPTY_REASONS.copy()
 
-    prompt = _build_prompt(negative_reviews)
+    prompt = _build_prompt(negative_reviews, product_name, product_category)
 
     valid_ids = {rid for rid, _ in negative_reviews}
 

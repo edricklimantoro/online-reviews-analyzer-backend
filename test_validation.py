@@ -91,8 +91,16 @@ def main():
     test("wrong type - text is int", base_url, '{"reviews": [{"id": 1, "text": 123}]}')
     # 11. Null text
     test("null text", base_url, '{"reviews": [{"id": 1, "text": null}]}')
-    # 12. Wrong content type with valid JSON
-    test("wrong content type", base_url, '{"reviews": [{"id": 1, "text": "ok"}]}', content_type="text/plain")
+    # 12. Missing product_name
+    test("missing product_name", base_url, '{"product_category": "phone", "reviews": [{"id": 1, "text": "bad"}]}')
+    # 13. Missing product_category
+    test("missing product_category", base_url, '{"product_name": "Phone", "reviews": [{"id": 1, "text": "bad"}]}')
+    # 14. Empty product_name
+    test("empty product_name", base_url, '{"product_name": "", "product_category": "phone", "reviews": [{"id": 1, "text": "bad"}]}')
+    # 15. Empty product_category
+    test("empty product_category", base_url, '{"product_name": "Phone", "product_category": "", "reviews": [{"id": 1, "text": "bad"}]}')
+    # 16. Wrong content type with valid JSON
+    test("wrong content type", base_url, '{"product_name": "Phone", "product_category": "phone", "reviews": [{"id": 1, "text": "ok"}]}', content_type="text/plain")
 
     print(f"\n{'=' * 40}")
     print(f"Results: {PASS} passed, {FAIL} failed")

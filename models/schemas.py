@@ -23,6 +23,12 @@ class ReviewItem(BaseModel):
 class AnalyzeRequest(BaseModel):
     """Request body for the /analyze endpoint."""
 
+    product_name: str = Field(
+        ..., min_length=1, description="Name of the product being reviewed"
+    )
+    product_category: str = Field(
+        ..., min_length=1, description="Category of the product (e.g. smartphone, laptop, clothing)"
+    )
     reviews: list[ReviewItem] = Field(
         ..., description="List of product reviews to analyze", min_length=1
     )

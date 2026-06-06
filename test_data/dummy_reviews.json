@@ -1,4 +1,6 @@
 {
+  "product_name": "SmartPhone X Pro",
+  "product_category": "smartphone",
   "reviews": [
     { "id": 1, "text": "Absolutely love this phone! The camera quality is stunning, especially in low light conditions." },
     { "id": 2, "text": "Battery barely lasts half a day with normal usage. Very disappointing for the price." },

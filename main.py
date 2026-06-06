@@ -98,6 +98,8 @@ async def validation_exception_handler(
 async def analyze_reviews(request: AnalyzeRequest):
     reviews = request.reviews
     texts = [r.text for r in reviews]
+    product_name = request.product_name
+    product_category = request.product_category
 
     # ── Step 1: Sentiment prediction with confidence ──────────────────────
     try:
@@ -139,7 +141,11 @@ async def analyze_reviews(request: AnalyzeRequest):
 
     if negative_id_text_pairs:
         try:
-            reasons = extract_negative_reasons(negative_id_text_pairs)
+            reasons = extract_negative_reasons(
+                negative_id_text_pairs,
+                product_name=product_name,
+                product_category=product_category,
+            )
             product_reasons = [
                 ReasonItem(**item) for item in reasons.get("product_reasons", [])
             ]

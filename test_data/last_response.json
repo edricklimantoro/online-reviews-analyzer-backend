@@ -4,28 +4,37 @@
   "negative_count": 51,
   "product_reasons": [
     {
-      "reason": "Battery Life, Charging & Thermal Issues",
-      "count": 8,
+      "reason": "Battery Performance & Charging Defects",
+      "count": 5,
       "severity": "critical",
       "severity_score": 5,
-      "severity_explanation": "Swelling batteries and constant overheating pose direct safety hazards to users. Frequent charging failures and rapid drain severely impact core functionality, leading to high return rates and potential liability.",
+      "severity_explanation": "Swelling batteries pose severe safety hazards, while dead chargers and rapid standby drain cause core functionality failure, leading to high return rates and potential liability.",
       "review_ids": [
         2,
-        4,
-        22,
         38,
-        58,
         60,
         82,
         90
       ]
     },
     {
-      "reason": "Screen Durability & Display Defects",
+      "reason": "Thermal Management & Overheating Issues",
+      "count": 3,
+      "severity": "critical",
+      "severity_score": 5,
+      "severity_explanation": "Constant overheating during standard use indicates potential hardware defects that risk component longevity, user safety, and device reliability.",
+      "review_ids": [
+        4,
+        22,
+        58
+      ]
+    },
+    {
+      "reason": "Display Quality & Screen Durability",
       "count": 4,
       "severity": "moderate",
-      "severity_score": 3,
-      "severity_explanation": "Dead pixels, yellow tints, and poor scratch resistance directly impair the primary user interface. While not always a safety risk, it significantly degrades daily usability and increases warranty claim volume.",
+      "severity_score": 4,
+      "severity_explanation": "Screen defects like dead pixels, yellow tinting, and poor scratch resistance directly impair the primary user interface, causing significant customer dissatisfaction and returns.",
       "review_ids": [
         7,
         26,
@@ -34,11 +43,11 @@
       ]
     },
     {
-      "reason": "Software Instability & System Glitches",
+      "reason": "Software Stability & Performance Glitches",
       "count": 5,
       "severity": "moderate",
-      "severity_score": 3,
-      "severity_explanation": "Frequent freezing, random reboots, and app crashes disrupt core workflows. These issues require urgent OTA patches to restore trust and prevent long-term churn.",
+      "severity_score": 4,
+      "severity_explanation": "Frequent crashes, freezes, and ghost vibrations severely degrade daily usability and erode trust in device reliability, increasing support ticket volume.",
       "review_ids": [
         14,
         42,
@@ -48,31 +57,31 @@
       ]
     },
     {
-      "reason": "Audio Quality & Wireless Connectivity",
+      "reason": "Connectivity & Sensor Malfunctions",
       "count": 5,
       "severity": "moderate",
-      "severity_score": 3,
-      "severity_explanation": "Poor speaker/mic quality and unstable Wi-Fi/Bluetooth/signal reception compromise essential communication features. This directly impacts customer satisfaction and perceived product reliability.",
+      "severity_score": 4,
+      "severity_explanation": "Unreliable Wi-Fi, Bluetooth, GPS, and cellular signal hinder core smartphone functions, impacting both personal convenience and professional utility.",
       "review_ids": [
-        11,
         18,
-        30,
+        34,
         46,
-        62
+        62,
+        98
       ]
     },
     {
-      "reason": "Build Quality & Component/Sensor Failures",
+      "reason": "Hardware Build Quality & Audio Issues",
       "count": 5,
-      "severity": "moderate",
+      "severity": "minor",
       "severity_score": 3,
-      "severity_explanation": "Cheap buttons, inaccurate GPS, and malfunctioning proximity sensors indicate poor component sourcing or assembly. These durability concerns shorten device lifespan and increase support tickets.",
+      "severity_explanation": "Wobbly buttons, stuck switches, and poor audio quality reflect subpar manufacturing tolerances but typically do not render the device completely unusable.",
       "review_ids": [
-        34,
+        11,
+        30,
         54,
         74,
-        94,
-        98
+        94
       ]
     },
     {
@@ -80,7 +89,7 @@
       "count": 5,
       "severity": "minor",
       "severity_score": 2,
-      "severity_explanation": "Missing cables, tools, guides, and warranty cards are frustrating but easily resolved with replacements. Low business impact as they do not affect core device functionality or safety.",
+      "severity_explanation": "Absence of cables, earbuds, or paperwork causes initial frustration but is easily resolved with replacements or customer service, minimizing business impact.",
       "review_ids": [
         9,
         24,
@@ -88,29 +97,15 @@
         80,
         88
       ]
-    },
-    {
-      "reason": "Signs of Tampering or Repackaging",
-      "count": 5,
-      "severity": "critical",
-      "severity_score": 5,
-      "severity_explanation": "Broken seals, generic tape, and used items sold as new indicate fraud or severe QC failures. This destroys brand trust, triggers high refund costs, and poses potential hygiene/safety risks.",
-      "review_ids": [
-        16,
-        40,
-        48,
-        72,
-        96
-      ]
     }
   ],
   "shipping_reasons": [
     {
       "reason": "Shipping Damage & Inadequate Packaging",
       "count": 6,
-      "severity": "moderate",
-      "severity_score": 3,
-      "severity_explanation": "Lack of padding, crushed boxes, and wet damage directly cause product defects upon arrival. This increases return logistics costs, damages brand reputation, and requires immediate packaging redesign.",
+      "severity": "critical",
+      "severity_score": 5,
+      "severity_explanation": "Products arriving broken or rattling due to poor packaging result in immediate loss of sale, high reverse logistics costs, and severe brand damage.",
       "review_ids": [
         6,
         28,
@@ -121,28 +116,42 @@
       ]
     },
     {
-      "reason": "Delivery Delays & Service Failures",
-      "count": 3,
-      "severity": "minor",
-      "severity_score": 2,
-      "severity_explanation": "Late deliveries and mislabeled express shipments frustrate customers but do not reflect product quality. Impact is manageable through better carrier SLAs and proactive communication.",
+      "reason": "Delivery Delays & Routing Errors",
+      "count": 5,
+      "severity": "moderate",
+      "severity_score": 4,
+      "severity_explanation": "Late deliveries and wrong addresses cause significant customer frustration, erode trust in fulfillment capabilities, and increase operational support costs.",
       "review_ids": [
         12,
         36,
-        56
+        56,
+        68,
+        76
       ]
     },
     {
-      "reason": "Order Fulfillment & Address Errors",
+      "reason": "Packaging Integrity & Tampering Concerns",
       "count": 5,
       "severity": "moderate",
+      "severity_score": 4,
+      "severity_explanation": "Opened boxes, broken seals, and repackaged used items suggest supply chain vulnerabilities or counterfeit risks, severely damaging consumer confidence.",
+      "review_ids": [
+        16,
+        40,
+        48,
+        72,
+        96
+      ]
+    },
+    {
+      "reason": "Fulfillment & Order Accuracy Errors",
+      "count": 3,
+      "severity": "moderate",
       "severity_score": 3,
-      "severity_explanation": "Wrong items, mixed orders, and incorrect addresses cause significant logistical overhead, double shipping costs, and high customer churn. Requires immediate warehouse and routing process audits.",
+      "severity_explanation": "Receiving wrong colors, mixed orders, or missing units requires manual intervention and refunds, impacting warehouse efficiency and customer satisfaction.",
       "review_ids": [
         20,
         64,
-        68,
-        76,
         92
       ]
     }
