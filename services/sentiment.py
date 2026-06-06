@@ -108,14 +108,22 @@ def load_model() -> tuple:
 # ---------------------------------------------------------------------------
 # Inference
 # ---------------------------------------------------------------------------
+def confidence_level(score: float) -> str:
+    if score >= 0.90:
+        return "high"
+    if score >= 0.70:
+        return "medium"
+    return "low"
+
+
 @torch.no_grad()
 def predict_sentiment(
     texts: list[str],
     model: nn.Module,
     tokenizer: AutoTokenizer,
-) -> list[str]:
+) -> list[tuple[str, float]]:
     """
-    Predict sentiment labels for a list of review texts.
+    Predict sentiment labels and confidence scores for a list of review texts.
 
     Args:
         texts: List of review strings.
@@ -123,7 +131,8 @@ def predict_sentiment(
         tokenizer: The corresponding tokenizer.
 
     Returns:
-        List of sentiment labels ("positive" or "negative"), one per input text.
+        List of (label, confidence) tuples, one per input text.
+        Confidence is the softmax probability of the predicted class.
     """
     if not texts:
         return []
@@ -142,8 +151,12 @@ def predict_sentiment(
 
     # Forward pass
     logits = model(input_ids=input_ids, attention_mask=attention_mask)
-    predictions = torch.argmax(logits, dim=1).cpu().tolist()
+    probs = F.softmax(logits, dim=1)
+    confidence, predictions = torch.max(probs, dim=1)
 
-    # Map indices to labels
-    labels = [LABEL_MAP[pred] for pred in predictions]
-    return labels
+    # Map indices to labels and pair with confidence
+    results = [
+        (LABEL_MAP[pred], conf)
+        for pred, conf in zip(predictions.tolist(), confidence.tolist())
+    ]
+    return results

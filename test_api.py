@@ -25,8 +25,8 @@ except ImportError:
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-API_HOST = os.getenv("API_HOST", "")
-API_PORT = os.getenv("API_PORT", "")
+API_HOST = os.getenv("API_HOST", "127.0.0.1")
+API_PORT = os.getenv("API_PORT", "8000")
 DEFAULT_URL = f"http://{API_HOST}:{API_PORT}"
 DUMMY_DATA_PATH = Path(__file__).parent / "test_data" / "dummy_reviews.json"
 

@@ -24,11 +24,8 @@ from models.schemas import (
     ReasonItem,
 )
 from services.extraction import extract_negative_reasons
-from services.sentiment import load_model, predict_sentiment
+from services.sentiment import confidence_level, load_model, predict_sentiment
 
-# ---------------------------------------------------------------------------
-# Logging configuration
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
@@ -36,12 +33,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Application lifespan (startup / shutdown)
-# ---------------------------------------------------------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load the ML model at startup so it's ready for inference requests."""
     logger.info("Starting up — loading sentiment model...")
     try:
         model, tokenizer = load_model()
@@ -55,25 +48,21 @@ async def lifespan(app: FastAPI):
         logger.error("Failed to load sentiment model: %s", e)
         raise
 
-    yield  # Application is running
+    yield
 
     logger.info("Shutting down — cleaning up resources.")
 
 
-# ---------------------------------------------------------------------------
-# FastAPI app
-# ---------------------------------------------------------------------------
 app = FastAPI(
     title="Product Review Analysis API",
     description=(
         "AI/ML microservice that predicts review sentiment and extracts "
         "reasons for negative feedback using DistilBERT and Ollama."
     ),
-    version="1.0.0",
+    version="2.0.0",
     lifespan=lifespan,
 )
 
-# CORS — allow all origins for development convenience
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -83,9 +72,6 @@ app.add_middleware(
 )
 
 
-# ---------------------------------------------------------------------------
-# Exception handlers
-# ---------------------------------------------------------------------------
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(
     request: object, exc: RequestValidationError
@@ -108,25 +94,14 @@ async def validation_exception_handler(
     )
 
 
-# ---------------------------------------------------------------------------
-# Endpoints
-# ---------------------------------------------------------------------------
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_reviews(request: AnalyzeRequest):
-    """
-    Analyze a list of product reviews.
-
-    1. Predict sentiment for each review using the DistilBERT model.
-    2. Count positive and negative reviews.
-    3. Extract top reasons for negative reviews via the Ollama LLM.
-    4. Return the full structured response.
-    """
     reviews = request.reviews
     texts = [r.text for r in reviews]
 
-    # ── Step 1: Sentiment prediction ──────────────────────────────────────
+    # ── Step 1: Sentiment prediction with confidence ──────────────────────
     try:
-        labels = predict_sentiment(
+        results = predict_sentiment(
             texts=texts,
             model=app.state.model,
             tokenizer=app.state.tokenizer,
@@ -138,25 +113,33 @@ async def analyze_reviews(request: AnalyzeRequest):
             detail=f"Sentiment prediction error: {e}",
         )
 
-    # ── Step 2: Build labeled reviews and count sentiments ────────────────
-    labeled_reviews = [
-        LabeledReview(id=review.id, text=review.text, label=label)
-        for review, label in zip(reviews, labels)
-    ]
+    # ── Step 2: Build labeled reviews with confidence ─────────────────────
+    labeled_reviews = []
+    negative_id_text_pairs: list[tuple[int, str]] = []
+
+    for review, (label, conf) in zip(reviews, results):
+        lr = LabeledReview(
+            id=review.id,
+            text=review.text,
+            label=label,
+            confidence=round(conf, 4),
+            confidence_level=confidence_level(conf),
+        )
+        labeled_reviews.append(lr)
+        if label == "negative":
+            negative_id_text_pairs.append((review.id, review.text))
 
     total_reviews = len(labeled_reviews)
     positive_count = sum(1 for lr in labeled_reviews if lr.label == "positive")
     negative_count = total_reviews - positive_count
 
     # ── Step 3: Extract reasons from negative reviews ─────────────────────
-    negative_texts = [lr.text for lr in labeled_reviews if lr.label == "negative"]
-
     product_reasons = []
     shipping_reasons = []
 
-    if negative_texts:
+    if negative_id_text_pairs:
         try:
-            reasons = extract_negative_reasons(negative_texts)
+            reasons = extract_negative_reasons(negative_id_text_pairs)
             product_reasons = [
                 ReasonItem(**item) for item in reasons.get("product_reasons", [])
             ]
@@ -165,7 +148,6 @@ async def analyze_reviews(request: AnalyzeRequest):
             ]
         except Exception as e:
             logger.error("Reason extraction failed: %s", e)
-            # Non-fatal: return response without reasons rather than failing
             product_reasons = []
             shipping_reasons = []
 
@@ -191,5 +173,4 @@ async def analyze_reviews(request: AnalyzeRequest):
 
 @app.get("/health")
 async def health_check():
-    """Simple health check endpoint."""
     return {"status": "healthy"}

@@ -15,8 +15,8 @@ import sys
 
 import requests
 
-API_HOST = os.getenv("API_HOST", "")
-API_PORT = os.getenv("API_PORT", "")
+API_HOST = os.getenv("API_HOST", "127.0.0.1")
+API_PORT = os.getenv("API_PORT", "8000")
 DEFAULT_URL = f"http://{API_HOST}:{API_PORT}"
 
 PASS = 0

@@ -2,13 +2,13 @@
 
 A FastAPI microservice that analyzes product reviews using AI/ML:
 
-- **Sentiment Prediction** — classifies reviews as positive/negative using a fine-tuned DistilBERT model (PyTorch).
-- **Reason Extraction** — identifies top reasons for negative feedback using a local Ollama LLM (`qwen3.6:35b-a3b`).
+- **Sentiment Prediction** — classifies reviews as positive/negative with **confidence scores** using a fine-tuned DistilBERT model (PyTorch).
+- **Reason Extraction** — identifies grouped (umbrella) reasons for negative feedback with **severity classification** via a local Ollama LLM (`qwen3.6:35b-a3b`).
 
 ## Prerequisites
 
 - **Python** ≥ 3.10
-- **Ollama** running locally with the `qwen3.6:35b-a3b` model pulled:
+- **Ollama** running with the `qwen3.6:35b-a3b` model pulled:
   ```bash
   ollama pull qwen3.6:35b-a3b
   ```
@@ -18,37 +18,30 @@ A FastAPI microservice that analyzes product reviews using AI/ML:
 
 ## Setup & Installation
 
-### Option A: Using `uv` (Recommended)
+### Using standard `pip`
 
 ```bash
-# 1. Create a virtual environment
-uv venv
-
-# 2. Activate it
-source .venv/bin/activate
-
-# 3. Install dependencies
-uv pip install -r requirements.txt
-```
-
-### Option B: Using standard `pip`
-
-```bash
-# 1. Create a virtual environment
 python -m venv .venv
-
-# 2. Activate it
 source .venv/bin/activate
-
-# 3. Install dependencies
 pip install -r requirements.txt
 ```
 
 > **Note (Windows):** Replace `source .venv/bin/activate` with `.venv\Scripts\activate`.
 
-## Running the Server
+## Environment Variables
+
+The API reads configuration from environment variables. Copy the provided `.env` file and adjust as needed:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `API_HOST` | `127.0.0.1` | FastAPI server bind host |
+| `API_PORT` | `8000` | FastAPI server port |
+| `OLLAMA_HOST` | `http://127.0.0.1:11434` | Ollama server URL |
+
+To load the `.env` file before starting the server:
 
 ```bash
+export $(grep -v '^#' .env | xargs)
 uvicorn main:app --reload
 ```
 
@@ -56,45 +49,6 @@ The API will be available at **http://127.0.0.1:8000**.
 
 - Interactive docs: http://127.0.0.1:8000/docs
 - Health check: http://127.0.0.1:8000/health
-
-## Exposing the API with ngrok
-
-To make the API accessible over the internet (e.g., for a frontend deployed elsewhere or for team members to test), you can use [ngrok](https://ngrok.com/) to create a public tunnel to your local server.
-
-### 1. Install ngrok
-
-```bash
-# macOS (Homebrew)
-brew install ngrok
-
-# Or download from https://ngrok.com/download
-```
-
-### 2. Authenticate (one-time setup)
-
-Sign up at [ngrok.com](https://ngrok.com/) and copy your auth token, then run:
-
-```bash
-ngrok config add-authtoken <YOUR_AUTH_TOKEN>
-```
-
-### 3. Start the tunnel
-
-With the FastAPI server already running on port **8000**, open a **new terminal** and run:
-
-```bash
-ngrok http 8000
-```
-
-ngrok will display a public URL like:
-
-```
-Forwarding  https://abc123.ngrok-free.app -> http://localhost:8000
-```
-
-You can now access the API at `https://abc123.ngrok-free.app/analyze` from anywhere.
-
-> **Tip:** The free tier generates a random URL each time. For a stable URL, use a paid ngrok plan or set a custom domain.
 
 ## API Usage
 
@@ -107,9 +61,9 @@ curl -X POST http://127.0.0.1:8000/analyze \
   -H "Content-Type: application/json" \
   -d '{
     "reviews": [
-      { "id": 0, "text": "Great phone, love the camera." },
-      { "id": 1, "text": "The battery dies too fast." },
-      { "id": 2, "text": "Box arrived crushed and charger was missing." }
+      { "id": 1, "text": "Great phone, love the camera." },
+      { "id": 2, "text": "The battery dies too fast." },
+      { "id": 3, "text": "Box arrived crushed and charger was missing." }
     ]
   }'
 ```
@@ -122,61 +76,119 @@ curl -X POST http://127.0.0.1:8000/analyze \
   "positive_count": 1,
   "negative_count": 2,
   "product_reasons": [
-    { "reason": "Battery dies too fast", "count": 1 }
+    {
+      "reason": "Battery Life & Thermal Issues",
+      "count": 1,
+      "severity": "moderate",
+      "severity_score": 4,
+      "severity_explanation": "Battery draining quickly impacts daily usability and drives returns.",
+      "review_ids": [2]
+    }
   ],
   "shipping_reasons": [
-    { "reason": "Box arrived crushed", "count": 1 },
-    { "reason": "Missing charging cable", "count": 1 }
+    {
+      "reason": "Shipping Damage & Missing Accessories",
+      "count": 1,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Damaged packaging and missing items create customer frustration and support overhead.",
+      "review_ids": [3]
+    }
   ],
   "reviews": [
-    { "id": 0, "text": "Great phone, love the camera.", "label": "positive" },
-    { "id": 1, "text": "The battery dies too fast.", "label": "negative" },
-    { "id": 2, "text": "Box arrived crushed and charger was missing.", "label": "negative" }
+    { "id": 1, "text": "Great phone, love the camera.", "label": "positive", "confidence": 0.9987, "confidence_level": "high" },
+    { "id": 2, "text": "The battery dies too fast.", "label": "negative", "confidence": 0.9992, "confidence_level": "high" },
+    { "id": 3, "text": "Box arrived crushed and charger was missing.", "label": "negative", "confidence": 0.8912, "confidence_level": "medium" }
   ]
 }
 ```
 
-## Testing with Dummy Data
+### Response Fields
 
-A test script and 100 realistic smartphone reviews are included for end-to-end testing.
+| Field | Description |
+|-------|-------------|
+| `total_reviews` | Number of reviews analyzed |
+| `positive_count` / `negative_count` | Count per sentiment |
+| `product_reasons` | Grouped negative reasons about the **product** itself |
+| `shipping_reasons` | Grouped negative reasons about **shipping/packaging** |
+| `reviews` | Individual reviews with sentiment labels |
 
-### Install test dependency
+#### Reason Object
 
-```bash
-pip install requests
+| Field | Description |
+|-------|-------------|
+| `reason` | Descriptive umbrella reason name |
+| `count` | Number of reviews matching this reason |
+| `severity` | `"critical"` \| `"moderate"` \| `"minor"` |
+| `severity_score` | 1 (minor) to 5 (critical) |
+| `severity_explanation` | Explanation of the severity — designed for tooltip/hover display |
+| `review_ids` | IDs of reviews that belong to this reason — enables click-to-filter on the dashboard |
+
+#### Review Object
+
+| Field | Description |
+|-------|-------------|
+| `id` | Review ID from the request |
+| `text` | Original review text |
+| `label` | `"positive"` or `"negative"` |
+| `confidence` | Softmax probability of the predicted class (0.0 – 1.0) |
+| `confidence_level` | `"high"` (≥0.90) \| `"medium"` (0.70–0.89) \| `"low"` (<0.70) |
+
+### Validation Errors (422)
+
+Invalid requests return a 422 error with a descriptive message:
+
+```json
+{
+  "detail": "body -> reviews -> 0 -> text: Review text must not be empty or whitespace only"
+}
 ```
 
-### Run against local server
+Triggered by: invalid JSON, empty body, missing fields, empty/whitespace-only text, wrong types, empty reviews list.
+
+## Testing
+
+### Happy-path test with dummy data
+
+100 realistic smartphone reviews are included for end-to-end testing:
 
 ```bash
 python test_api.py
 ```
 
-### Run against ngrok URL
+Runs against `http://127.0.0.1:8000` by default. For a remote server:
 
 ```bash
-python test_api.py --url https://abc123.ngrok-free.app
+python test_api.py --url https://your-ngrok-url.ngrok-free.app
 ```
 
-The script will:
-1. ✅ Perform a health check
-2. 📄 Load 100 dummy reviews from `test_data/dummy_reviews.json`
-3. 🚀 Send them to `POST /analyze`
-4. 📊 Print a formatted summary (counts, reasons, labeled reviews)
-5. 💾 Save the full JSON response to `test_data/last_response.json`
+The script prints a formatted summary and saves the full response to `test_data/last_response.json`.
+
+### Validation error test
+
+12 different malformed request scenarios are tested:
+
+```bash
+python test_validation.py
+```
+
+All should return 422. Run with `--url` for a remote server.
 
 ## Project Structure
 
 ```
-├── main.py                 # FastAPI app, CORS, and endpoint definitions
+├── main.py                 # FastAPI app, CORS, exception handlers, and endpoint
 ├── requirements.txt        # Project dependencies
-├── README.md               # This file
-├── test_api.py             # Test script for the /analyze endpoint
+├── .env                    # Environment configuration (hosts, ports)
+├── .gitignore
+├── README.md
+├── test_api.py             # Happy-path test script
+├── test_validation.py      # Validation-error test script
 ├── models/
 │   └── schemas.py          # Pydantic models for request/response validation
 ├── services/
-│   ├── sentiment.py        # DistilBERT model loading and inference
-│   └── extraction.py       # Ollama LLM reason extraction
+│   ├── sentiment.py        # DistilBERT model loading and inference with confidence
+│   └── extraction.py       # Ollama LLM reason extraction with severity and grouping
 ├── test_data/
 │   └── dummy_reviews.json  # 100 realistic smartphone reviews for testing
 └── ml_assets/
