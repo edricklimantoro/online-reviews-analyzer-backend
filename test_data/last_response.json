@@ -1,0 +1,852 @@
+{
+  "total_reviews": 100,
+  "positive_count": 49,
+  "negative_count": 51,
+  "product_reasons": [
+    {
+      "reason": "Battery Life, Charging & Thermal Issues",
+      "count": 8,
+      "severity": "critical",
+      "severity_score": 5,
+      "severity_explanation": "Swelling batteries and constant overheating pose direct safety hazards to users. Frequent charging failures and rapid drain severely impact core functionality, leading to high return rates and potential liability.",
+      "review_ids": [
+        2,
+        4,
+        22,
+        38,
+        58,
+        60,
+        82,
+        90
+      ]
+    },
+    {
+      "reason": "Screen Durability & Display Defects",
+      "count": 4,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Dead pixels, yellow tints, and poor scratch resistance directly impair the primary user interface. While not always a safety risk, it significantly degrades daily usability and increases warranty claim volume.",
+      "review_ids": [
+        7,
+        26,
+        50,
+        78
+      ]
+    },
+    {
+      "reason": "Software Instability & System Glitches",
+      "count": 5,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Frequent freezing, random reboots, and app crashes disrupt core workflows. These issues require urgent OTA patches to restore trust and prevent long-term churn.",
+      "review_ids": [
+        14,
+        42,
+        66,
+        70,
+        86
+      ]
+    },
+    {
+      "reason": "Audio Quality & Wireless Connectivity",
+      "count": 5,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Poor speaker/mic quality and unstable Wi-Fi/Bluetooth/signal reception compromise essential communication features. This directly impacts customer satisfaction and perceived product reliability.",
+      "review_ids": [
+        11,
+        18,
+        30,
+        46,
+        62
+      ]
+    },
+    {
+      "reason": "Build Quality & Component/Sensor Failures",
+      "count": 5,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Cheap buttons, inaccurate GPS, and malfunctioning proximity sensors indicate poor component sourcing or assembly. These durability concerns shorten device lifespan and increase support tickets.",
+      "review_ids": [
+        34,
+        54,
+        74,
+        94,
+        98
+      ]
+    },
+    {
+      "reason": "Missing Accessories & Documentation",
+      "count": 5,
+      "severity": "minor",
+      "severity_score": 2,
+      "severity_explanation": "Missing cables, tools, guides, and warranty cards are frustrating but easily resolved with replacements. Low business impact as they do not affect core device functionality or safety.",
+      "review_ids": [
+        9,
+        24,
+        44,
+        80,
+        88
+      ]
+    },
+    {
+      "reason": "Signs of Tampering or Repackaging",
+      "count": 5,
+      "severity": "critical",
+      "severity_score": 5,
+      "severity_explanation": "Broken seals, generic tape, and used items sold as new indicate fraud or severe QC failures. This destroys brand trust, triggers high refund costs, and poses potential hygiene/safety risks.",
+      "review_ids": [
+        16,
+        40,
+        48,
+        72,
+        96
+      ]
+    }
+  ],
+  "shipping_reasons": [
+    {
+      "reason": "Shipping Damage & Inadequate Packaging",
+      "count": 6,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Lack of padding, crushed boxes, and wet damage directly cause product defects upon arrival. This increases return logistics costs, damages brand reputation, and requires immediate packaging redesign.",
+      "review_ids": [
+        6,
+        28,
+        32,
+        52,
+        84,
+        100
+      ]
+    },
+    {
+      "reason": "Delivery Delays & Service Failures",
+      "count": 3,
+      "severity": "minor",
+      "severity_score": 2,
+      "severity_explanation": "Late deliveries and mislabeled express shipments frustrate customers but do not reflect product quality. Impact is manageable through better carrier SLAs and proactive communication.",
+      "review_ids": [
+        12,
+        36,
+        56
+      ]
+    },
+    {
+      "reason": "Order Fulfillment & Address Errors",
+      "count": 5,
+      "severity": "moderate",
+      "severity_score": 3,
+      "severity_explanation": "Wrong items, mixed orders, and incorrect addresses cause significant logistical overhead, double shipping costs, and high customer churn. Requires immediate warehouse and routing process audits.",
+      "review_ids": [
+        20,
+        64,
+        68,
+        76,
+        92
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "text": "Absolutely love this phone! The camera quality is stunning, especially in low light conditions.",
+      "label": "positive",
+      "confidence": 0.9984,
+      "confidence_level": "high"
+    },
+    {
+      "id": 2,
+      "text": "Battery barely lasts half a day with normal usage. Very disappointing for the price.",
+      "label": "negative",
+      "confidence": 0.9999,
+      "confidence_level": "high"
+    },
+    {
+      "id": 3,
+      "text": "The display is gorgeous — vibrant colors and great viewing angles.",
+      "label": "positive",
+      "confidence": 0.9967,
+      "confidence_level": "high"
+    },
+    {
+      "id": 4,
+      "text": "Phone overheats constantly when playing games or using GPS navigation.",
+      "label": "negative",
+      "confidence": 0.9977,
+      "confidence_level": "high"
+    },
+    {
+      "id": 5,
+      "text": "Fast and responsive. Apps open instantly and multitasking is smooth.",
+      "label": "positive",
+      "confidence": 0.9979,
+      "confidence_level": "high"
+    },
+    {
+      "id": 6,
+      "text": "The box arrived completely crushed. Luckily the phone was fine but very concerning.",
+      "label": "negative",
+      "confidence": 0.9024,
+      "confidence_level": "high"
+    },
+    {
+      "id": 7,
+      "text": "Screen scratches way too easily even with careful use. Needs a screen protector out of the box.",
+      "label": "negative",
+      "confidence": 0.997,
+      "confidence_level": "high"
+    },
+    {
+      "id": 8,
+      "text": "Best smartphone I've ever owned. Worth every penny.",
+      "label": "positive",
+      "confidence": 0.9979,
+      "confidence_level": "high"
+    },
+    {
+      "id": 9,
+      "text": "Charging cable was missing from the box. Had to buy one separately.",
+      "label": "negative",
+      "confidence": 0.9035,
+      "confidence_level": "high"
+    },
+    {
+      "id": 10,
+      "text": "The facial recognition is incredibly fast and accurate. Unlocks in a split second.",
+      "label": "positive",
+      "confidence": 0.98,
+      "confidence_level": "high"
+    },
+    {
+      "id": 11,
+      "text": "Sound quality from the speakers is tinny and weak. Can barely hear it in a noisy room.",
+      "label": "negative",
+      "confidence": 0.9994,
+      "confidence_level": "high"
+    },
+    {
+      "id": 12,
+      "text": "Delivery was delayed by over two weeks with no updates from the carrier.",
+      "label": "negative",
+      "confidence": 0.951,
+      "confidence_level": "high"
+    },
+    {
+      "id": 13,
+      "text": "Sleek design and lightweight. Fits perfectly in my hand.",
+      "label": "positive",
+      "confidence": 0.9972,
+      "confidence_level": "high"
+    },
+    {
+      "id": 14,
+      "text": "The phone randomly restarts at least once a day. Extremely frustrating.",
+      "label": "negative",
+      "confidence": 0.9996,
+      "confidence_level": "high"
+    },
+    {
+      "id": 15,
+      "text": "Great value for money. Competes with flagships at half the price.",
+      "label": "positive",
+      "confidence": 0.9974,
+      "confidence_level": "high"
+    },
+    {
+      "id": 16,
+      "text": "Package was clearly opened before delivery. Seal was broken and accessories were loose.",
+      "label": "negative",
+      "confidence": 0.9843,
+      "confidence_level": "high"
+    },
+    {
+      "id": 17,
+      "text": "Night mode on the camera is phenomenal. My photos look professional.",
+      "label": "positive",
+      "confidence": 0.9898,
+      "confidence_level": "high"
+    },
+    {
+      "id": 18,
+      "text": "Wi-Fi keeps disconnecting every few minutes. Had to factory reset twice.",
+      "label": "negative",
+      "confidence": 0.9976,
+      "confidence_level": "high"
+    },
+    {
+      "id": 19,
+      "text": "The fingerprint sensor works flawlessly every single time.",
+      "label": "positive",
+      "confidence": 0.9939,
+      "confidence_level": "high"
+    },
+    {
+      "id": 20,
+      "text": "Received a different color than what I ordered. Customer service was unhelpful.",
+      "label": "negative",
+      "confidence": 0.9895,
+      "confidence_level": "high"
+    },
+    {
+      "id": 21,
+      "text": "Battery life is amazing. Easily lasts two full days with moderate use.",
+      "label": "positive",
+      "confidence": 0.9947,
+      "confidence_level": "high"
+    },
+    {
+      "id": 22,
+      "text": "The phone gets extremely hot while charging. I'm worried about safety.",
+      "label": "negative",
+      "confidence": 0.9911,
+      "confidence_level": "high"
+    },
+    {
+      "id": 23,
+      "text": "Smooth software experience. No bloatware and regular security updates.",
+      "label": "positive",
+      "confidence": 0.9983,
+      "confidence_level": "high"
+    },
+    {
+      "id": 24,
+      "text": "Earbuds that were supposed to come with it were missing. No packing slip either.",
+      "label": "negative",
+      "confidence": 0.6685,
+      "confidence_level": "low"
+    },
+    {
+      "id": 25,
+      "text": "Camera zoom is impressive even at 10x. Way better than my old phone.",
+      "label": "positive",
+      "confidence": 0.995,
+      "confidence_level": "high"
+    },
+    {
+      "id": 26,
+      "text": "Screen started showing dead pixels after just two weeks of use.",
+      "label": "negative",
+      "confidence": 0.999,
+      "confidence_level": "high"
+    },
+    {
+      "id": 27,
+      "text": "Lightweight and comfortable to hold for extended periods. Love the matte finish.",
+      "label": "positive",
+      "confidence": 0.9962,
+      "confidence_level": "high"
+    },
+    {
+      "id": 28,
+      "text": "Delivery packaging was just a thin envelope. No bubble wrap, no protection whatsoever.",
+      "label": "negative",
+      "confidence": 0.9944,
+      "confidence_level": "high"
+    },
+    {
+      "id": 29,
+      "text": "Fast charging works great. 0 to 100 in about 45 minutes.",
+      "label": "positive",
+      "confidence": 0.9064,
+      "confidence_level": "high"
+    },
+    {
+      "id": 30,
+      "text": "Microphone quality is terrible on calls. People always complain they can't hear me.",
+      "label": "negative",
+      "confidence": 0.9911,
+      "confidence_level": "high"
+    },
+    {
+      "id": 31,
+      "text": "Excellent build quality. Feels premium and durable.",
+      "label": "positive",
+      "confidence": 0.9989,
+      "confidence_level": "high"
+    },
+    {
+      "id": 32,
+      "text": "The phone case I ordered with it arrived but the phone itself was damaged.",
+      "label": "negative",
+      "confidence": 0.922,
+      "confidence_level": "high"
+    },
+    {
+      "id": 33,
+      "text": "Video recording in 4K is buttery smooth. Great for content creators.",
+      "label": "positive",
+      "confidence": 0.9885,
+      "confidence_level": "high"
+    },
+    {
+      "id": 34,
+      "text": "GPS accuracy is way off. Navigation keeps losing my location.",
+      "label": "negative",
+      "confidence": 0.9902,
+      "confidence_level": "high"
+    },
+    {
+      "id": 35,
+      "text": "The AMOLED display is beautiful. Deep blacks and vivid colors.",
+      "label": "positive",
+      "confidence": 0.9898,
+      "confidence_level": "high"
+    },
+    {
+      "id": 36,
+      "text": "Arrived a week late and the shipping box was soaking wet from rain damage.",
+      "label": "negative",
+      "confidence": 0.8878,
+      "confidence_level": "medium"
+    },
+    {
+      "id": 37,
+      "text": "5G connectivity is blazing fast in supported areas.",
+      "label": "positive",
+      "confidence": 0.992,
+      "confidence_level": "high"
+    },
+    {
+      "id": 38,
+      "text": "Battery drains like crazy in standby mode. Loses 30% overnight doing nothing.",
+      "label": "negative",
+      "confidence": 0.9956,
+      "confidence_level": "high"
+    },
+    {
+      "id": 39,
+      "text": "Setup was easy and data transfer from my old phone was seamless.",
+      "label": "positive",
+      "confidence": 0.9939,
+      "confidence_level": "high"
+    },
+    {
+      "id": 40,
+      "text": "The protective film on the screen was already peeled off. Seems like a returned item.",
+      "label": "negative",
+      "confidence": 0.9991,
+      "confidence_level": "high"
+    },
+    {
+      "id": 41,
+      "text": "Haptic feedback is top-notch. Every tap feels satisfying.",
+      "label": "positive",
+      "confidence": 0.9892,
+      "confidence_level": "high"
+    },
+    {
+      "id": 42,
+      "text": "Phone freezes constantly when switching between apps. Very laggy.",
+      "label": "negative",
+      "confidence": 0.9996,
+      "confidence_level": "high"
+    },
+    {
+      "id": 43,
+      "text": "Love the stereo speakers. Great for watching movies without headphones.",
+      "label": "positive",
+      "confidence": 0.9957,
+      "confidence_level": "high"
+    },
+    {
+      "id": 44,
+      "text": "Missing the SIM ejector tool from the box. Minor but annoying.",
+      "label": "negative",
+      "confidence": 0.5141,
+      "confidence_level": "low"
+    },
+    {
+      "id": 45,
+      "text": "Portrait mode creates beautiful bokeh effects. My friends think I have a DSLR.",
+      "label": "positive",
+      "confidence": 0.9837,
+      "confidence_level": "high"
+    },
+    {
+      "id": 46,
+      "text": "Bluetooth connectivity is unstable. Keeps dropping connection with my earbuds.",
+      "label": "negative",
+      "confidence": 0.9981,
+      "confidence_level": "high"
+    },
+    {
+      "id": 47,
+      "text": "The matte black color looks absolutely stunning in person.",
+      "label": "positive",
+      "confidence": 0.9844,
+      "confidence_level": "high"
+    },
+    {
+      "id": 48,
+      "text": "Product box was taped shut with generic tape instead of factory seal. Suspicious.",
+      "label": "negative",
+      "confidence": 0.9091,
+      "confidence_level": "high"
+    },
+    {
+      "id": 49,
+      "text": "Wireless charging works perfectly with my existing Qi pad.",
+      "label": "positive",
+      "confidence": 0.9966,
+      "confidence_level": "high"
+    },
+    {
+      "id": 50,
+      "text": "Touch screen becomes unresponsive in cold weather. Really annoying in winter.",
+      "label": "negative",
+      "confidence": 0.9973,
+      "confidence_level": "high"
+    },
+    {
+      "id": 51,
+      "text": "Software updates come regularly and always improve performance.",
+      "label": "positive",
+      "confidence": 0.9842,
+      "confidence_level": "high"
+    },
+    {
+      "id": 52,
+      "text": "The phone arrived with a cracked screen. Packaging had zero padding inside.",
+      "label": "negative",
+      "confidence": 0.986,
+      "confidence_level": "high"
+    },
+    {
+      "id": 53,
+      "text": "Dual SIM support is a game changer for managing work and personal numbers.",
+      "label": "positive",
+      "confidence": 0.9799,
+      "confidence_level": "high"
+    },
+    {
+      "id": 54,
+      "text": "Volume buttons feel cheap and wobbly. Don't feel like they'll last.",
+      "label": "negative",
+      "confidence": 0.9987,
+      "confidence_level": "high"
+    },
+    {
+      "id": 55,
+      "text": "Incredible battery optimization. Adaptive battery really works.",
+      "label": "positive",
+      "confidence": 0.9896,
+      "confidence_level": "high"
+    },
+    {
+      "id": 56,
+      "text": "Ordered express shipping but it came via standard delivery. No refund offered.",
+      "label": "negative",
+      "confidence": 0.9522,
+      "confidence_level": "high"
+    },
+    {
+      "id": 57,
+      "text": "The ultra-wide camera lens captures amazing landscape shots.",
+      "label": "positive",
+      "confidence": 0.9914,
+      "confidence_level": "high"
+    },
+    {
+      "id": 58,
+      "text": "Phone heats up so much during video calls that it becomes uncomfortable to hold.",
+      "label": "negative",
+      "confidence": 0.9966,
+      "confidence_level": "high"
+    },
+    {
+      "id": 59,
+      "text": "Clean and intuitive user interface. Everything just works.",
+      "label": "positive",
+      "confidence": 0.9932,
+      "confidence_level": "high"
+    },
+    {
+      "id": 60,
+      "text": "The charger brick in the box doesn't work. Dead on arrival.",
+      "label": "negative",
+      "confidence": 0.9993,
+      "confidence_level": "high"
+    },
+    {
+      "id": 61,
+      "text": "Face unlock works even in the dark. Infrared sensor is fantastic.",
+      "label": "positive",
+      "confidence": 0.9957,
+      "confidence_level": "high"
+    },
+    {
+      "id": 62,
+      "text": "Signal reception is poor compared to my previous phone. Dropped calls frequently.",
+      "label": "negative",
+      "confidence": 0.9989,
+      "confidence_level": "high"
+    },
+    {
+      "id": 63,
+      "text": "Premium feeling materials all around. Glass back and aluminum frame feel luxurious.",
+      "label": "positive",
+      "confidence": 0.9938,
+      "confidence_level": "high"
+    },
+    {
+      "id": 64,
+      "text": "Received someone else's order mixed in with mine. Logistics are a mess.",
+      "label": "negative",
+      "confidence": 0.9828,
+      "confidence_level": "high"
+    },
+    {
+      "id": 65,
+      "text": "The always-on display is great for checking time and notifications at a glance.",
+      "label": "positive",
+      "confidence": 0.9759,
+      "confidence_level": "high"
+    },
+    {
+      "id": 66,
+      "text": "Camera app crashes frequently. Lost several important photos because of this.",
+      "label": "negative",
+      "confidence": 0.9991,
+      "confidence_level": "high"
+    },
+    {
+      "id": 67,
+      "text": "Water resistance actually works! Accidentally dropped it in the pool and it survived.",
+      "label": "positive",
+      "confidence": 0.9903,
+      "confidence_level": "high"
+    },
+    {
+      "id": 68,
+      "text": "Shipping label showed wrong address but somehow it arrived. Very careless handling.",
+      "label": "negative",
+      "confidence": 0.8504,
+      "confidence_level": "medium"
+    },
+    {
+      "id": 69,
+      "text": "Edge-to-edge display is immersive for watching videos and gaming.",
+      "label": "positive",
+      "confidence": 0.9934,
+      "confidence_level": "high"
+    },
+    {
+      "id": 70,
+      "text": "The phone randomly vibrates with no notification. Ghost vibrations are creepy.",
+      "label": "negative",
+      "confidence": 0.9944,
+      "confidence_level": "high"
+    },
+    {
+      "id": 71,
+      "text": "Expandable storage with microSD is a huge plus. 256GB and counting.",
+      "label": "positive",
+      "confidence": 0.987,
+      "confidence_level": "high"
+    },
+    {
+      "id": 72,
+      "text": "Box was completely open when delivered. No seal, accessories scattered everywhere.",
+      "label": "negative",
+      "confidence": 0.9982,
+      "confidence_level": "high"
+    },
+    {
+      "id": 73,
+      "text": "Macro photography mode captures incredible detail. Amazing for close-up shots.",
+      "label": "positive",
+      "confidence": 0.9965,
+      "confidence_level": "high"
+    },
+    {
+      "id": 74,
+      "text": "Power button got stuck after just one month. Had to use software restart.",
+      "label": "negative",
+      "confidence": 0.998,
+      "confidence_level": "high"
+    },
+    {
+      "id": 75,
+      "text": "The under-display fingerprint sensor is fast and reliable.",
+      "label": "positive",
+      "confidence": 0.9841,
+      "confidence_level": "high"
+    },
+    {
+      "id": 76,
+      "text": "Delivered to wrong address first. Had to wait for redelivery which took another week.",
+      "label": "negative",
+      "confidence": 0.9786,
+      "confidence_level": "high"
+    },
+    {
+      "id": 77,
+      "text": "This phone handles multitasking like a beast. 12GB RAM makes a real difference.",
+      "label": "positive",
+      "confidence": 0.995,
+      "confidence_level": "high"
+    },
+    {
+      "id": 78,
+      "text": "Screen has a noticeable yellow tint that no setting can fix. Defective panel.",
+      "label": "negative",
+      "confidence": 0.9989,
+      "confidence_level": "high"
+    },
+    {
+      "id": 79,
+      "text": "Super fast and responsive UI. Zero lag even with 20 apps open.",
+      "label": "positive",
+      "confidence": 0.9978,
+      "confidence_level": "high"
+    },
+    {
+      "id": 80,
+      "text": "The quick start guide was missing from the box. Not a big deal but still.",
+      "label": "negative",
+      "confidence": 0.662,
+      "confidence_level": "low"
+    },
+    {
+      "id": 81,
+      "text": "AI photo enhancement makes every picture look polished. Love this feature.",
+      "label": "positive",
+      "confidence": 0.9972,
+      "confidence_level": "high"
+    },
+    {
+      "id": 82,
+      "text": "Battery swells after 3 months of use. This is a serious safety hazard.",
+      "label": "negative",
+      "confidence": 0.9995,
+      "confidence_level": "high"
+    },
+    {
+      "id": 83,
+      "text": "Smooth scrolling and 120Hz refresh rate make everything look fluid.",
+      "label": "positive",
+      "confidence": 0.9918,
+      "confidence_level": "high"
+    },
+    {
+      "id": 84,
+      "text": "Outer shipping box had no fragile label. Found the product box dented badly.",
+      "label": "negative",
+      "confidence": 0.8744,
+      "confidence_level": "medium"
+    },
+    {
+      "id": 85,
+      "text": "The gesture navigation system is intuitive and easy to learn.",
+      "label": "positive",
+      "confidence": 0.9886,
+      "confidence_level": "high"
+    },
+    {
+      "id": 86,
+      "text": "Constant software bugs after the latest update. Should have been tested more.",
+      "label": "negative",
+      "confidence": 0.9923,
+      "confidence_level": "high"
+    },
+    {
+      "id": 87,
+      "text": "Excellent call quality. Both parties hear each other crystal clear.",
+      "label": "positive",
+      "confidence": 0.9973,
+      "confidence_level": "high"
+    },
+    {
+      "id": 88,
+      "text": "The warranty card was missing. Now I can't register for manufacturer warranty.",
+      "label": "negative",
+      "confidence": 0.9884,
+      "confidence_level": "high"
+    },
+    {
+      "id": 89,
+      "text": "Super sharp display at 1440p resolution. Text and images are crisp.",
+      "label": "positive",
+      "confidence": 0.9975,
+      "confidence_level": "high"
+    },
+    {
+      "id": 90,
+      "text": "Phone shuts down at 20% battery remaining. The battery indicator is unreliable.",
+      "label": "negative",
+      "confidence": 0.9943,
+      "confidence_level": "high"
+    },
+    {
+      "id": 91,
+      "text": "NFC payment works flawlessly. Tap to pay is so convenient.",
+      "label": "positive",
+      "confidence": 0.982,
+      "confidence_level": "high"
+    },
+    {
+      "id": 92,
+      "text": "Ordered two phones, only received one. Had to fight customer service for a refund.",
+      "label": "negative",
+      "confidence": 0.9965,
+      "confidence_level": "high"
+    },
+    {
+      "id": 93,
+      "text": "The camera AI scene recognition is incredibly smart. Auto-adjusts settings perfectly.",
+      "label": "positive",
+      "confidence": 0.9963,
+      "confidence_level": "high"
+    },
+    {
+      "id": 94,
+      "text": "Speaker grille collects dust easily and is impossible to clean properly.",
+      "label": "negative",
+      "confidence": 0.9992,
+      "confidence_level": "high"
+    },
+    {
+      "id": 95,
+      "text": "Love the customizable themes and icon packs. Made it truly my own.",
+      "label": "positive",
+      "confidence": 0.998,
+      "confidence_level": "high"
+    },
+    {
+      "id": 96,
+      "text": "Product was clearly used and repackaged as new. Had fingerprints all over it.",
+      "label": "negative",
+      "confidence": 0.9982,
+      "confidence_level": "high"
+    },
+    {
+      "id": 97,
+      "text": "120Hz display is amazing for gaming. Everything feels so responsive.",
+      "label": "positive",
+      "confidence": 0.996,
+      "confidence_level": "high"
+    },
+    {
+      "id": 98,
+      "text": "Proximity sensor malfunctions during calls. Screen stays on against my face and I accidentally press buttons.",
+      "label": "negative",
+      "confidence": 0.9932,
+      "confidence_level": "high"
+    },
+    {
+      "id": 99,
+      "text": "Wireless Android Auto works perfectly with my car. Seamless integration.",
+      "label": "positive",
+      "confidence": 0.9952,
+      "confidence_level": "high"
+    },
+    {
+      "id": 100,
+      "text": "The phone was shipped without any protective wrapping inside the box. Just rattling around loose.",
+      "label": "negative",
+      "confidence": 0.9804,
+      "confidence_level": "high"
+    }
+  ]
+}

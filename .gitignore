@@ -35,7 +35,6 @@ ml_assets/sentiment_model/
 *.env.local
 
 # Test artifacts
-test_data/
 *.pytest_cache/
 .coverage
 htmlcov/
