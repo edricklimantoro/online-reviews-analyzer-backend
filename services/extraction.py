@@ -16,9 +16,17 @@ from ollama import Client
 logger = logging.getLogger(__name__)
 
 OLLAMA_MODEL = "qwen3.6:35b-a3b"
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+OLLAMA_HOST = os.getenv("OLLAMA_CLIENT_HOST", "http://127.0.0.1:11434")
 
-_client = Client(host=OLLAMA_HOST)
+_client: Client | None = None
+
+
+def _get_client() -> Client:
+    """Lazily create the Ollama client on first use."""
+    global _client
+    if _client is None:
+        _client = Client(host=OLLAMA_HOST)
+    return _client
 
 EMPTY_REASONS: dict = {
     "product_reasons": [],
@@ -73,7 +81,7 @@ Read every review and identify the KEY COMPLAINT THEMES. Group similar complaint
 Consider the product name ("{product_name}") and category ("{product_category}") when scoring severity. A non-functional smartphone is critical; a cosmetic issue on a budget accessory may be minor.
 Score each reason from 1 (minor) to 5 (critical) considering:
 - Safety risk, functionality impact, customer frustration, business impact.
-- 1-2 → "minor" (cosmetic or preference issue, no real impact)
+- 1-2 → "minor" (subjective or preference issue, no real impact)
 - 3-4 → "moderate" (annoying but not deal-breaking, partial functionality loss)
 - 5 → "critical" (safety hazard, completely non-functional, major defect)
 Write a short severity_explanation referencing the specific customer and business impact, grounded in what is expected for this type of product.
@@ -143,11 +151,29 @@ def _validate_reasons(data: dict, valid_ids: set[int]) -> dict:
                 logger.warning("Skipping malformed reason item: %s", item)
                 continue
 
-            # Filter review_ids to only include valid IDs
-            raw_ids = [
-                int(i) for i in item.get("review_ids", [])
-                if isinstance(i, (int, float))
-            ]
+            # Normalize review_ids to integers, accepting numeric strings too
+            raw_ids = []
+            for i in item.get("review_ids", []):
+                if isinstance(i, bool):
+                    continue
+                if isinstance(i, int):
+                    raw_ids.append(i)
+                elif isinstance(i, float) and i.is_integer():
+                    raw_ids.append(int(i))
+                elif isinstance(i, str):
+                    normalized = i.strip()
+                    if not normalized:
+                        continue
+                    try:
+                        if "." in normalized:
+                            value = float(normalized)
+                            if value.is_integer():
+                                raw_ids.append(int(value))
+                        else:
+                            raw_ids.append(int(normalized))
+                    except ValueError:
+                        continue
+
             filtered_ids = [rid for rid in raw_ids if rid in valid_ids]
             dropped = set(raw_ids) - set(filtered_ids)
             if dropped:
@@ -202,7 +228,7 @@ def extract_negative_reasons(
     valid_ids = {rid for rid, _ in negative_reviews}
 
     try:
-        response = _client.chat(
+        response = _get_client().chat(
             model=OLLAMA_MODEL,
             messages=[
                 {

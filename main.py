@@ -10,6 +10,7 @@ This microservice:
 
 import json
 import logging
+import time
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
@@ -103,11 +104,14 @@ async def analyze_reviews(request: AnalyzeRequest):
 
     # ── Step 1: Sentiment prediction with confidence ──────────────────────
     try:
+        t0 = time.perf_counter()
         results = predict_sentiment(
             texts=texts,
             model=app.state.model,
             tokenizer=app.state.tokenizer,
         )
+        elapsed = time.perf_counter() - t0
+        logger.info("Sentiment classification complete: %d reviews in %.3fs", len(texts), elapsed)
     except Exception as e:
         logger.error("Sentiment prediction failed: %s", e)
         raise HTTPException(
@@ -141,17 +145,22 @@ async def analyze_reviews(request: AnalyzeRequest):
 
     if negative_id_text_pairs:
         try:
+            t0 = time.perf_counter()
             reasons = extract_negative_reasons(
                 negative_id_text_pairs,
                 product_name=product_name,
                 product_category=product_category,
             )
+
             product_reasons = [
                 ReasonItem(**item) for item in reasons.get("product_reasons", [])
             ]
             shipping_reasons = [
                 ReasonItem(**item) for item in reasons.get("shipping_reasons", [])
             ]
+
+            elapsed = time.perf_counter() - t0
+            logger.info("Reason extraction complete: %d negative reviews in %.3fs", len(negative_id_text_pairs), elapsed)
         except Exception as e:
             logger.error("Reason extraction failed: %s", e)
             product_reasons = []
